@@ -1,6 +1,9 @@
 import os
 from PyPDF2 import PdfReader
+import re
 import nltk
+nltk.download("stopwords")
+nltk.download("punkt")
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
@@ -14,6 +17,35 @@ stop_words = set(stopwords.words('english'))
 
 # Processar os arquivos PDF
 all_texts_without_stop_words = []
+
+def extract_article_info(text):
+    # Exemplo simples: procurar por palavras-chave nas seções relevantes
+    objective = ""
+    problem = ""
+    method = ""
+    contribution = ""
+
+    objective_pattern = re.compile(r"objective[s](.*?\.)", re.DOTALL | re.IGNORECASE)
+    problem_pattern = re.compile(r"problem[s](.*?\.)", re.DOTALL | re.IGNORECASE)
+    method_pattern = re.compile(r"method[s]?/methodolog[y][ies](.*?\.)", re.DOTALL | re.IGNORECASE)
+    contribution_pattern = re.compile(r"contribution[s]?(.*?\.)", re.DOTALL | re.IGNORECASE)
+
+    objective_match = objective_pattern.search(text)
+    problem_match = problem_pattern.search(text)
+    method_match = method_pattern.search(text)
+    contribution_match = contribution_pattern.search(text)
+
+    if objective_match:
+        objective = objective_match.group(1).strip()
+    if problem_match:
+        problem = problem_match.group(1).strip()
+    if method_match:
+        method = method_match.group(1).strip()
+    if contribution_match:
+        contribution = contribution_match.group(1).strip()
+
+    return objective, problem, method, contribution
+
 
 for project in range(10):
     texts_without_stop_words = []
@@ -36,6 +68,19 @@ for project in range(10):
     # Adicionar texto sem stopwords à lista para análise de bag-of-words
     all_texts_without_stop_words.extend(texts_without_stop_words)
 
+
+for project in range(10):
+    objective, problem, method, contribution = extract_article_info(all_texts_without_stop_words[project])
+
+    # Imprimir as informações
+    print(f"Projeto {project + 1}:")
+    print("Objetivo:", objective)
+    print("Problema:", problem)
+    print("Método:", method)
+    print("Contribuição:", contribution)
+    print()
+
+
 # Utilizar modelo bag-of-words para contar frequência de termos
 vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(all_texts_without_stop_words)
@@ -52,3 +97,4 @@ top_terms = sorted(term_count_dict.items(), key=lambda x: x[1], reverse=True)[:1
 print("Top 10 termos mais citados nos artigos:")
 for term, count in top_terms:
     print(f"{term}: {count}")
+
