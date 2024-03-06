@@ -25,10 +25,10 @@ def extract_article_info(text):
     method = ""
     contribution = ""
 
-    objective_pattern = re.compile(r"objective[s](.*?\.)", re.DOTALL | re.IGNORECASE)
+    objective_pattern = re.compile(r"aim[s](.*?\.)", re.DOTALL | re.IGNORECASE)
     problem_pattern = re.compile(r"problem[s](.*?\.)", re.DOTALL | re.IGNORECASE)
-    method_pattern = re.compile(r"method[s]?/methodolog[y][ies](.*?\.)", re.DOTALL | re.IGNORECASE)
-    contribution_pattern = re.compile(r"contribution[s]?(.*?\.)", re.DOTALL | re.IGNORECASE)
+    method_pattern = re.compile(r"method(.*?\.)", re.DOTALL | re.IGNORECASE)
+    contribution_pattern = re.compile(r"contribute[s]?(.*?\.)", re.DOTALL | re.IGNORECASE)
 
     objective_match = objective_pattern.search(text)
     problem_match = problem_pattern.search(text)
