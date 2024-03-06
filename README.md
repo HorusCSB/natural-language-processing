@@ -8,15 +8,15 @@ Projeto de IA sobre processamento de linguagem natural
 - DONE
 
 ## realizar pré-processamento de texto (remoção de stop-words, lematização,steaming)
-- DOING
+- DONE
 
 
 ## utilização de modelos de linguagem como bag-of-words, n-grama, etc
-- DOING
+- DONE
 
 
 ## identifique os 10 termos mais citados nos artigos (não considerando as referências bibliográficas – references)
-- DOING
+- DONE
 
 
 ## extraia as referências bibliográficas
